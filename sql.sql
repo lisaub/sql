@@ -26,7 +26,7 @@ CREATE TABLE employees (
 CREATE TABLE departments (
  id INT PRIMARY KEY,
  name VARCHAR(50),
- description TEXT,
+ description VARCHAR(255),
  employees_associated INT,
  budget DECIMAL(10,2),
  expenses DECIMAL(10,2)
@@ -35,7 +35,7 @@ CREATE TABLE departments (
 CREATE TABLE positions (
  id INT PRIMARY KEY,
  name VARCHAR(50),
- description TEXT,
+ description VARCHAR(255),
  base_salary DECIMAL(10,2),
  employees_associated INT,
  required_skills VARCHAR(100),
@@ -48,7 +48,7 @@ CREATE TABLE performance_evaluations (
  employee_id INT,
  evaluation_date TIMESTAMP,
  rating INT,
- comments TEXT,
+ comments VARCHAR(255),
  FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE vacation_history (
 CREATE TABLE capacitacion (
  id INT PRIMARY KEY,
  nombre VARCHAR(50),
- descripcion TEXT,
+ descripcion VARCHAR(255),
  fecha_inicio DATE,
  fecha_finalizacion DATE,
  duracion DECIMAL(10,2),
@@ -78,7 +78,7 @@ CREATE TABLE capacitacion (
 CREATE TABLE beneficio (
  id INT PRIMARY KEY,
  nombre VARCHAR(50),
- descripcion TEXT,
+ descripcion VARCHAR(255),
  costo DECIMAL(10,2),
  empleados_asociados INT,
  FOREIGN KEY (empleados_asociados) REFERENCES employees(id)
@@ -90,7 +90,7 @@ CREATE TABLE incidente_laboral (
  fecha_incidente DATE,
  tipo_incidente VARCHAR(50),
  gravedad VARCHAR(50),
- acciones_correctivas TEXT,
+ acciones_correctivas VARCHAR(255),
  FOREIGN KEY (empleado_asociado) REFERENCES employees(id)
 );
 
