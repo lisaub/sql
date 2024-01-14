@@ -1,11 +1,11 @@
 -- Inserting data into the 'departments' table
 INSERT INTO departments (id, name, description, employees_associated, budget, expenses)
 VALUES 
-(1, 'Sales', 'Handles sales', 0, 50000.00, 0.00),
-(2, 'Marketing', 'Handles marketing', 0, 40000.00, 0.00),
-(3, 'HR', 'Handles human resources', 0, 30000.00, 0.00),
-(4, 'IT', 'Handles information technology', 0, 60000.00, 0.00),
-(5, 'Finance', 'Handles finances', 0, 70000.00, 0.00);
+(1, 'Sales', 'Handles sales', 10, 50000.00, 20000.00),
+(2, 'Marketing', 'Handles marketing', 15, 60000.00, 25000.00),
+(3, 'HR', 'Handles human resources', 5, 40000.00, 15000.00),
+(4, 'Engineering', 'Handles engineering', 20, 70000.00, 30000.00),
+(5, 'Finance', 'Handles finance', 7, 45000.00, 20000.00);
 
 -- Inserting data into the 'performance_evaluations' table
 INSERT INTO performance_evaluations (id, employee_id, evaluation_date, rating, comments)
