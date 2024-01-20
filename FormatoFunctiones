@@ -1,0 +1,44 @@
+-- A function to get the total number of employees in a specific department:
+
+DELIMITER //
+CREATE FUNCTION TotalEmployeesInDepartment(dept_id INT) 
+RETURNS INT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE total INT;
+  SELECT COUNT(*) INTO total
+  FROM employees
+  WHERE department_id = dept_id;
+  RETURN total;
+END //
+DELIMITER ;
+
+-- Store function output in a variable
+-- SET @totalEmployees = TotalEmployeesInDepartment(1);
+
+-- Store function output in a table
+-- INSERT INTO my_table (column_name)
+-- VALUES (TotalEmployeesInDepartment(1));
+
+
+-- A function to calculate the average rating of an employee’s performance evaluations:
+DELIMITER //
+CREATE FUNCTION AveragePerformanceRating(emp_id INT) 
+RETURNS DECIMAL(3,2) DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE avg_rating DECIMAL(3,2);
+  SELECT AVG(rating) INTO avg_rating
+  FROM performance_evaluations
+  WHERE employee_id = emp_id;
+  RETURN avg_rating;
+END //
+DELIMITER ;
+
+-- Store function output in a variable
+-- SET @avgPerfRate = AveragePerformanceRating(1);
+
+-- Store function output in a table
+-- INSERT INTO my_table (column_name)
+-- VALUES (AveragePerformanceRating(1));
+
+SELECT TotalEmployeesInDepartment(1);
+SELECT AveragePerformanceRating(1);
