@@ -40,5 +40,32 @@ DELIMITER ;
 -- INSERT INTO my_table (column_name)
 -- VALUES (AveragePerformanceRating(1));
 
-SELECT TotalEmployeesInDepartment(1);
-SELECT AveragePerformanceRating(1);
+-- SELECT TotalEmployeesInDepartment(1);
+-- SELECT AveragePerformanceRating(1);
+
+
+DELIMITER //
+CREATE FUNCTION Avg_Salary_Department(dept_name VARCHAR(255))
+RETURNS FLOAT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE avg_salary FLOAT;
+  SELECT AVG(e.salary) INTO avg_salary
+  FROM employees e
+  JOIN departments d ON e.department_id = d.id
+  WHERE d.name = dept_name;
+  RETURN avg_salary;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE FUNCTION Total_Vacation_Days(emp_id INT)
+RETURNS INT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE total_days INT;
+  SELECT SUM(v.duration) INTO total_days
+  FROM vacation_history v
+  WHERE v.employee_id = emp_id;
+  RETURN total_days;
+END; //
+DELIMITER ;
