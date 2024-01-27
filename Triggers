@@ -1,0 +1,46 @@
+-- crear tablas  LOG para employees y performance evaluation :
+
+CREATE TABLE employees_log (
+    id INT AUTO_INCREMENT,
+    operation VARCHAR(50),
+    operation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    employee_id INT,
+    user VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE performance_evaluations_log (
+    id INT AUTO_INCREMENT,
+    operation VARCHAR(50),
+    operation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    evaluation_id INT,
+    user VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+
+-- create the triggers: BEFORE UPDATE trigger on employees table:
+-- This trigger will log every update operation on the employees table before it happens.
+
+DELIMITER //
+CREATE TRIGGER before_employee_update 
+BEFORE UPDATE ON employees
+FOR EACH ROW
+BEGIN
+    INSERT INTO employees_log(operation, employee_id, user) 
+    VALUES ('UPDATE', OLD.id, CURRENT_USER());
+END; //
+DELIMITER ;
+
+-- AFTER INSERT trigger on performance_evaluations table:
+-- This trigger will log every insert operation on the performance_evaluations table after it happens.
+
+DELIMITER //
+CREATE TRIGGER after_evaluation_insert
+AFTER INSERT ON performance_evaluations
+FOR EACH ROW
+BEGIN
+    INSERT INTO performance_evaluations_log(operation, evaluation_id, user)
+    VALUES ('INSERT', NEW.id, CURRENT_USER());
+END; //
+DELIMITER ;
