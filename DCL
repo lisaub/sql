@@ -1,0 +1,19 @@
+-- Create a user called 'readonlyuser' with password 'readonlypassword'
+CREATE USER 'readonlyuser'@'localhost' IDENTIFIED BY 'readonlypassword';
+
+-- Grant SELECT (read) permissions on all tables in your database to 'readonlyuser'
+GRANT SELECT ON company_db_test.* TO 'readonlyuser'@'localhost';
+
+-- Create a user called 'readwriteuser' with password 'readwritepassword'
+CREATE USER 'readwriteuser'@'localhost' IDENTIFIED BY 'readwritepassword';
+
+-- Grant SELECT (read), INSERT, and UPDATE permissions on all tables in your database to 'readwriteuser'
+GRANT SELECT, INSERT, UPDATE ON company_db_test.* TO 'readwriteuser'@'localhost';
+
+-- we did not grant DELETE permissions to either user
+-- replace 'localhost' with the correct hostname if your MySQL server is not on the same machine
+-- execute FLUSH PRIVILEGES; after setting the permissions to ensure they are immediately effective.
+
+-- SELECT User, Host FROM mysql.user;
+-- SHOW GRANTS FOR 'readonlyuser'@'localhost';
+-- SHOW GRANTS FOR 'readwriteuser'@'localhost';
