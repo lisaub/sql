@@ -1,0 +1,48 @@
+START TRANSACTION;
+
+-- Actualizar el department_id de los empleados que pertenecen a los departamentos que se van a eliminar
+UPDATE employees SET department_id = NULL WHERE department_id IN (4, 5);
+
+-- Ahora eliminar los registros de los departamentos
+DELETE FROM departments WHERE id IN (4, 5);
+
+-- Rollback (descomenta la siguiente línea para revertir los cambios)
+-- ROLLBACK;
+
+-- Commit (descomenta la siguiente línea para hacer permanentes los cambios)
+-- COMMIT;
+
+
+
+START TRANSACTION;
+
+-- Insertar registros
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (6, 'Alice', 'Smith', '1990-01-01', '789 Side St', '1112223333', 'alice.smith@example.com', 4500.00, CURRENT_TIMESTAMP, 1, 2, 'Communication, Marketing', NULL, NULL);
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (7, 'Bob', 'Johnson', '1991-02-01', '987 Down St', '4445556666', 'bob.johnson@example.com', 4700.00, CURRENT_TIMESTAMP, 2, 3, 'Leadership, HR', NULL, NULL);
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (8, 'Carol', 'Williams', '1992-03-02', '123 Up St', '7778889999', 'carol.williams@example.com', 5000.00, CURRENT_TIMESTAMP, 3, 4, 'Project Management, IT', NULL, NULL);
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (9, 'David', 'Brown', '1993-04-03', '321 Round St', '0001112222', 'david.brown@example.com', 5200.00, CURRENT_TIMESTAMP, 4, 5, 'Analytical, Finance', NULL, NULL);
+
+-- Primer Savepoint después del registro #4
+SAVEPOINT AfterFourInserts;
+
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (10, 'Eve', 'Jones', '1994-05-04', '654 Square St', '3334445555', 'eve.jones@example.com', 4800.00, CURRENT_TIMESTAMP, 5, 1, 'Negotiation, Sales', NULL, NULL);
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (11, 'Frank', 'Garcia', '1995-06-05', '456 Triangle St', '6667778888', 'frank.garcia@example.com', 4900.00, CURRENT_TIMESTAMP, 1, 2, 'Creativity, Marketing', NULL, NULL);
+-- Continuación de los inserts...
+
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (12, 'Grace', 'Lee', '1996-07-06', '789 Circle St', '9998887776', 'grace.lee@example.com', 5100.00, CURRENT_TIMESTAMP, 2, 3, 'Strategic Planning, HR', NULL, NULL);
+INSERT INTO employees (id, first_name, last_name, birth_date, address, phone_number, email, salary, hire_date, department_id, position_id, skills, performance_evaluation_id, vacation_history_id) VALUES (13, 'Henry', 'Wilson', '1997-08-07', '123 Nonagon St', '6663339999', 'henry.wilson@example.com', 5300.00, CURRENT_TIMESTAMP, 3, 4, 'Innovation, IT', NULL, NULL);
+
+-- Segundo Savepoint después del registro #8
+SAVEPOINT AfterEightInserts;
+
+-- Para revertir los cambios hasta el primer savepoint (descomentar si es necesario):
+-- ROLLBACK TO AfterFourInserts;
+
+-- Para eliminar el savepoint de los primeros 4 registros (descomentar si es necesario):
+-- RELEASE SAVEPOINT AfterFourInserts;
+
+-- Commit para hacer permanentes los cambios (descomentar si estás seguro de los cambios):
+-- COMMIT;
+
+-- Rollback para revertir todos los cambios si algo sale mal (descomentar si es necesario):
+-- ROLLBACK;
