@@ -73,7 +73,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'John','Doe','1980-01-01','123 Main St','1234567890','john.doe@example.com',5000.00,'2024-02-10 22:33:22',1,1,'Leadership, Sales',1,1),(2,'Jane','Doe','1981-01-01','456 Main St','0987654321','jane.doe@example.com',4500.00,'2024-02-10 22:33:22',2,2,'Leadership, Marketing',2,2),(3,'Jim','Doe','1982-01-01','789 Main St','1122334455','jim.doe@example.com',4000.00,'2024-02-10 22:33:22',3,3,'Leadership, HR',3,3),(4,'Jill','Doe','1983-01-01','321 Main St','5544332211','jill.doe@example.com',5500.00,'2024-02-10 22:33:22',4,4,'Leadership, IT',4,4),(5,'Joe','Doe','1984-01-01','654 Main St','6677889900','joe.doe@example.com',6000.00,'2024-02-10 22:33:22',5,5,'Leadership, Finance',5,5);
+INSERT INTO `employees` VALUES (1,'John','Doe','1980-01-01','123 Main St','1234567890','john.doe@example.com',5000.00,'2024-02-10 22:33:22',1,1,'Leadership, Sales',1,1),(2,'Jane','Doe','1981-01-01','456 Main St','0987654321','jane.doe@example.com',4500.00,'2024-02-10 22:33:22',2,2,'Leadership, Marketing',2,2),(3,'Jim','Doe','1982-01-01','789 Main St','1122334455','jim.doe@example.com',4000.00,'2024-02-10 22:33:22',3,3,'Leadership, HR',3,3),(4,'Jill','Doe','1983-01-01','321 Main St','5544332211','jill.doe@example.com',5500.00,'2024-02-10 22:33:22',4,4,'Leadership, IT',4,4),(5,'Joe','Doe','1984-01-01','654 Main St','6677889900','joe.doe@example.com',6000.00,'2024-02-10 22:33:22',5,5,'Leadership, Finance',5,5),(6,'Alice','Smith','1990-01-01','789 Side St','1112223333','alice.smith@example.com',4500.00,'2024-02-10 23:37:24',1,2,'Communication, Marketing',NULL,NULL),(7,'Bob','Johnson','1991-02-01','987 Down St','4445556666','bob.johnson@example.com',4700.00,'2024-02-10 23:37:24',2,3,'Leadership, HR',NULL,NULL),(8,'Carol','Williams','1992-03-02','123 Up St','7778889999','carol.williams@example.com',5000.00,'2024-02-10 23:37:24',3,4,'Project Management, IT',NULL,NULL),(9,'David','Brown','1993-04-03','321 Round St','0001112222','david.brown@example.com',5200.00,'2024-02-10 23:37:24',4,5,'Analytical, Finance',NULL,NULL),(10,'Eve','Jones','1994-05-04','654 Square St','3334445555','eve.jones@example.com',4800.00,'2024-02-10 23:37:24',5,1,'Negotiation, Sales',NULL,NULL),(11,'Frank','Garcia','1995-06-05','456 Triangle St','6667778888','frank.garcia@example.com',4900.00,'2024-02-10 23:37:24',1,2,'Creativity, Marketing',NULL,NULL),(12,'Grace','Lee','1996-07-06','789 Circle St','9998887776','grace.lee@example.com',5100.00,'2024-02-10 23:37:24',2,3,'Strategic Planning, HR',NULL,NULL),(13,'Henry','Wilson','1997-08-07','123 Nonagon St','6663339999','henry.wilson@example.com',5300.00,'2024-02-10 23:37:24',3,4,'Innovation, IT',NULL,NULL);
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -200,4 +200,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-11  0:34:49
+-- Dump completed on 2024-02-11  0:38:43
+
