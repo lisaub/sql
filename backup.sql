@@ -1,4 +1,4 @@
---Abrir command line with administrator rights y
+--Abrir command line with administrator rights y navega a cd C:\Program Files\MySQL\MySQL Server 8.0\bin
 mysqldump -u root -p --no-create-info company_db > company_db_backup.sql
 
 
