@@ -1,3 +1,5 @@
+--abrir mysql shell
+
 mysqldump --no-create-info company_db > company_db_backup.sql
 -- mysqldump -u [username] -p[password] --no-create-info company_db > company_db_backup.sql
 
