@@ -1,71 +1,63 @@
--- Stored Procedure to Order a Table: This stored procedure allows you to order a table by a specified field in either ascending or descending order.
+-- Stored Procedure para Ordenar una Tabla: Este procedimiento almacenado te permite ordenar una tabla por un campo especificado ya sea en orden ascendente o descendente.
 
 DELIMITER //
-CREATE PROCEDURE OrderTable(IN table_name CHAR(64), IN field_name CHAR(64), IN order_type CHAR(4))
+CREATE PROCEDURE OrdenarTabla(IN nombre_tabla CHAR(64), IN nombre_campo CHAR(64), IN tipo_orden CHAR(4))
 BEGIN
-  SET @s = CONCAT('SELECT * FROM ', table_name, ' ORDER BY ', field_name, ' ', order_type);
+  SET @s = CONCAT('SELECT * FROM ', nombre_tabla, ' ORDER BY ', nombre_campo, ' ', tipo_orden);
   PREPARE stmt FROM @s;
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;
 END //
 DELIMITER ;
 
--- CALL OrderTable('employees', 'first_name', 'DESC');
+-- CALL OrdenarTabla('empleados', 'nombre', 'DESC');
 
-
-
--- Stored Procedure to Update the salary of an employee:
+-- Stored Procedure para Actualizar el Salario de un Empleado:
 DELIMITER //
-CREATE PROCEDURE UpdateEmployeeSalary(IN emp_id INT, IN new_salary DECIMAL(10,2))
+CREATE PROCEDURE ActualizarSalarioEmpleado(IN id_emp INT, IN nuevo_salario DECIMAL(10,2))
 BEGIN
-  UPDATE employees SET salary = new_salary WHERE id = emp_id;
+  UPDATE empleados SET salario = nuevo_salario WHERE id = id_emp;
 END //
 DELIMITER ;
 
--- CALL UpdateEmployeeSalary(1, 6000.00);
+-- CALL ActualizarSalarioEmpleado(1, 6000.00);
 
-
-
--- Stored Procedure to Get Employee Details: This stored procedure retrieves all details of an employee given their ID.
+-- Stored Procedure para Obtener Detalles de Empleados: Este procedimiento almacenado recupera todos los detalles de un empleado dado su ID.
 
 DELIMITER //
-CREATE PROCEDURE GetEmployeeDetails(IN emp_id INT)
+CREATE PROCEDURE ObtenerDetallesEmpleado(IN id_emp INT)
 BEGIN
-  SELECT * FROM employees WHERE id = emp_id;
+  SELECT * FROM empleados WHERE id = id_emp;
 END //
 DELIMITER ;
 
--- CALL GetEmployeeDetails(1);
+-- CALL ObtenerDetallesEmpleado(1);
 
-
-
--- Stored Procedure to Update Employee’s Department: This stored procedure updates the department of an employee.
+-- Stored Procedure para Actualizar el Departamento de un Empleado: Este procedimiento almacenado actualiza el departamento de un empleado.
 
 DELIMITER //
-CREATE PROCEDURE UpdateEmployeeDepartment(IN emp_id INT, IN new_dept_id INT)
+CREATE PROCEDURE ActualizarDepartamentoEmpleado(IN id_emp INT, IN nuevo_id_dept INT)
 BEGIN
-  UPDATE employees SET department_id = new_dept_id WHERE id = emp_id;
+  UPDATE empleados SET id_departamento = nuevo_id_dept WHERE id = id_emp;
 END //
 DELIMITER ;
 
--- CALL UpdateEmployeeDepartment(1, 2);
+CALL ActualizarDepartamentoEmpleado(1, 2);
 
-
-
--- Stored Procedure to Insert or Delete a Record: This stored procedure allows you to either insert a new record into the employees table or delete a specific record from it.
+-- Procedimiento Almacenado para Insertar o Eliminar un Registro: Este procedimiento almacenado te permite insertar un nuevo registro en la tabla de empleados o eliminar un registro específico de ella.
 
 DELIMITER //
-CREATE PROCEDURE InsertOrDeleteEmployee(IN action CHAR(6), IN emp_id INT, IN first_name CHAR(50), IN last_name CHAR(50))
+CREATE PROCEDURE InsertarEliminarEmpleado(IN accion CHAR(6), IN id_emp INT, IN primer_nombre CHAR(50), IN apellido CHAR(50))
 BEGIN
-  IF action = 'insert' THEN
-    INSERT INTO employees(first_name, last_name) VALUES (first_name, last_name);
-  ELSEIF action = 'delete' THEN
-    DELETE FROM employees WHERE id = emp_id;
+  IF accion = 'insert' THEN
+    INSERT INTO empleados(primer_nombre, apellido) VALUES (primer_nombre, apellido);
+  ELSEIF accion = 'delete' THEN
+    DELETE FROM empleados WHERE id = id_emp;
   ELSE
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: Invalid action. Use either "insert" or "delete".';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: Acción inválida. Utilice "insert" o "delete".';
   END IF;
 END //
 DELIMITER ;
 
--- CALL InsertOrDeleteEmployee('insert', NULL, 'John', 'Doe');
--- CALL InsertOrDeleteEmployee('delete', 1, NULL, NULL);
+-- CALL InsertarEliminarEmpleado('insert', NULL, 'John', 'Doe');
+-- CALL InsertarEliminarEmpleado('delete', 1, NULL, NULL);
