@@ -1,46 +1,46 @@
--- crear tablas  LOG para employees y performance evaluation :
+-- Crear tablas LOG para empleados y evaluación de rendimiento:
 
 CREATE TABLE employees_log (
     id INT AUTO_INCREMENT,
-    operation VARCHAR(50),
-    operation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    employee_id INT,
-    user VARCHAR(50),
+    operacion VARCHAR(50),
+    hora_operacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_empleado INT,
+    usuario VARCHAR(50),
     PRIMARY KEY(id)
 );
 
 CREATE TABLE performance_evaluations_log (
     id INT AUTO_INCREMENT,
-    operation VARCHAR(50),
-    operation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    evaluation_id INT,
-    user VARCHAR(50),
+    operacion VARCHAR(50),
+    hora_operacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_evaluacion INT,
+    usuario VARCHAR(50),
     PRIMARY KEY(id)
 );
 
 
--- create the triggers: BEFORE UPDATE trigger on employees table:
--- This trigger will log every update operation on the employees table before it happens.
+-- Crear los desencadenadores: Desencadenador BEFORE UPDATE en la tabla employees:
+-- Este desencadenador registrará cada operación de actualización en la tabla employees antes de que ocurra.
 
 DELIMITER //
-CREATE TRIGGER before_employee_update 
-BEFORE UPDATE ON employees
+CREATE TRIGGER antes_actualizacion_empleado
+BEFORE UPDATE ON empleados
 FOR EACH ROW
 BEGIN
-    INSERT INTO employees_log(operation, employee_id, user) 
-    VALUES ('UPDATE', OLD.id, CURRENT_USER());
+    INSERT INTO employees_log(operacion, id_empleado, usuario) 
+    VALUES ('ACTUALIZAR', OLD.id, CURRENT_USER());
 END; //
 DELIMITER ;
 
--- AFTER INSERT trigger on performance_evaluations table:
--- This trigger will log every insert operation on the performance_evaluations table after it happens.
+-- Desencadenador AFTER INSERT en la tabla performance_evaluations:
+-- Este desencadenador registrará cada operación de inserción en la tabla performance_evaluations después de que ocurra.
 
 DELIMITER //
-CREATE TRIGGER after_evaluation_insert
-AFTER INSERT ON performance_evaluations
+CREATE TRIGGER despues_insercion_evaluacion
+AFTER INSERT ON evaluaciones_desempenio
 FOR EACH ROW
 BEGIN
-    INSERT INTO performance_evaluations_log(operation, evaluation_id, user)
-    VALUES ('INSERT', NEW.id, CURRENT_USER());
+    INSERT INTO performance_evaluations_log(operacion, id_evaluacion, usuario)
+    VALUES ('INSERTAR', NEW.id, CURRENT_USER());
 END; //
 DELIMITER ;
