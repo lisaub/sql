@@ -1,0 +1,587 @@
+CREATE DATABASE company_db_2;
+-- Crear base de datos de la compañía
+
+USE company_db_2;
+-- Usar la base de datos de la compañía
+
+CREATE TABLE departamentos (
+ id INT PRIMARY KEY,
+ nombre VARCHAR(50),
+ descripcion VARCHAR(255),
+ empleados_asociados INT,
+ presupuesto DECIMAL(10,2),
+ gastos DECIMAL(10,2)
+) ENGINE=INNODB;
+-- Crear tabla de departamentos
+
+CREATE TABLE evaluaciones_desempenio (
+ id INT PRIMARY KEY,
+ id_empleado INT,
+ fecha_evaluacion TIMESTAMP,
+ calificacion INT,
+ comentarios VARCHAR(255)
+) ENGINE=INNODB;
+-- Crear tabla de evaluaciones de desempeño
+
+CREATE TABLE historial_vacaciones (
+ id INT PRIMARY KEY,
+ id_empleado INT,
+ fecha_inicio DATE,
+ fecha_fin DATE,
+ duracion DECIMAL(10,2),
+ estado VARCHAR(50)
+) ENGINE=INNODB;
+-- Crear tabla de historial de vacaciones
+
+CREATE TABLE puestos (
+ id INT PRIMARY KEY,
+ nombre VARCHAR(50),
+ descripcion VARCHAR(255),
+ salario_base DECIMAL(10,2),
+ empleados_asociados INT,
+ habilidades_requeridas VARCHAR(100),
+ id_evaluacion_desempenio INT
+) ENGINE=INNODB;
+-- Crear tabla de puestos
+
+CREATE TABLE empleados (
+ id INT PRIMARY KEY,
+ nombre VARCHAR(50),
+ apellido VARCHAR(50),
+ fecha_nacimiento DATE,
+ direccion VARCHAR(100),
+ numero_telefono VARCHAR(20),
+ correo_electronico VARCHAR(100),
+ salario DECIMAL(10,2),
+ fecha_contratacion TIMESTAMP,
+ id_departamento INT,
+ id_puesto INT,
+ habilidades VARCHAR(100),
+ id_evaluacion_desempenio INT,
+ id_historial_vacaciones INT
+) ENGINE=INNODB;
+-- Crear tabla de empleados
+
+ALTER TABLE empleados
+ADD FOREIGN KEY (id_departamento) REFERENCES departamentos(id),
+ADD FOREIGN KEY (id_puesto) REFERENCES puestos(id),
+ADD FOREIGN KEY (id_evaluacion_desempenio) REFERENCES evaluaciones_desempenio(id),
+ADD FOREIGN KEY (id_historial_vacaciones) REFERENCES historial_vacaciones(id);
+
+ALTER TABLE puestos
+ADD FOREIGN KEY (id_evaluacion_desempenio) REFERENCES evaluaciones_desempenio(id);
+
+ALTER TABLE evaluaciones_desempenio
+ADD FOREIGN KEY (id_empleado) REFERENCES empleados(id);
+
+ALTER TABLE historial_vacaciones
+ADD FOREIGN KEY (id_empleado) REFERENCES empleados(id);
+
+CREATE TABLE capacitacion (
+ id INT PRIMARY KEY,
+ nombre VARCHAR(50),
+ descripcion VARCHAR(255),
+ fecha_inicio DATE,
+ fecha_finalizacion DATE,
+ duracion DECIMAL(10,2),
+ costo DECIMAL(10,2),
+ empleados_asociados INT,
+ evaluacion_satisfaccion VARCHAR(50)
+) ENGINE=INNODB;
+-- Crear tabla de capacitacion
+
+ALTER TABLE capacitacion
+ADD FOREIGN KEY (empleados_asociados) REFERENCES empleados(id);
+
+CREATE TABLE beneficio (
+ id INT PRIMARY KEY,
+ nombre VARCHAR(50),
+ descripcion VARCHAR(255),
+ costo DECIMAL(10,2),
+ empleados_asociados INT
+) ENGINE=INNODB;
+-- Crear tabla de beneficio
+
+ALTER TABLE beneficio
+ADD FOREIGN KEY (empleados_asociados) REFERENCES empleados(id);
+
+CREATE TABLE incidente_laboral (
+ id INT PRIMARY KEY,
+ empleado_asociado INT,
+ fecha_incidente DATE,
+ tipo_incidente VARCHAR(50),
+ gravedad VARCHAR(50),
+ acciones_correctivas VARCHAR(255)
+) ENGINE=INNODB;
+-- Crear tabla de incidente_laboral
+
+ALTER TABLE incidente_laboral
+ADD FOREIGN KEY (empleado_asociado) REFERENCES empleados(id);
+
+CREATE TABLE reclutamiento (
+ id INT PRIMARY KEY,
+ puesto_asociado INT,
+ fecha_publicacion DATE,
+ fecha_cierre DATE,
+ numero_vacantes INT,
+ candidatos_asociados VARCHAR(100),
+ estado VARCHAR(50)
+) ENGINE=INNODB;
+-- Crear tabla de reclutamiento
+
+ALTER TABLE reclutamiento
+ADD FOREIGN KEY (puesto_asociado) REFERENCES puestos(id);
+
+CREATE TABLE viaje_laboral (
+ id INT PRIMARY KEY,
+ empleado_asociado INT,
+ destino VARCHAR(100),
+ fecha_salida DATE,
+ fecha_regreso DATE,
+ duracion DECIMAL(10,2),
+ motivo VARCHAR(100),
+ costo DECIMAL(10,2)
+) ENGINE=INNODB;
+-- Crear tabla de viaje_laboral
+
+ALTER TABLE viaje_laboral
+ADD FOREIGN KEY (empleado_asociado) REFERENCES empleados(id);
+
+
+-- Insertar datos en la tabla 'departamentos'
+INSERT INTO departamentos (id, nombre, descripcion, empleados_asociados, presupuesto, gastos)
+VALUES 
+(1, 'Ventas', 'Maneja ventas', 10, 50000.00, 20000.00),
+(2, 'Marketing', 'Maneja marketing', 15, 60000.00, 25000.00),
+(3, 'Recursos Humanos', 'Maneja recursos humanos', 5, 40000.00, 15000.00),
+(4, 'Ingeniería', 'Maneja ingeniería', 20, 70000.00, 30000.00),
+(5, 'Finanzas', 'Maneja finanzas', 7, 45000.00, 20000.00);
+
+-- Insertar datos en la tabla 'evaluaciones_desempenio'
+INSERT INTO evaluaciones_desempenio (id, id_empleado, fecha_evaluacion, calificacion, comentarios)
+VALUES 
+(1, NULL, CURRENT_TIMESTAMP, 3, 'Bueno'),
+(2, NULL, CURRENT_TIMESTAMP, 4, 'Muy Bueno'),
+(3, NULL, CURRENT_TIMESTAMP, 5, 'Excelente'),
+(4, NULL, CURRENT_TIMESTAMP, 2, 'Regular'),
+(5, NULL, CURRENT_TIMESTAMP, 1, 'Pobre');
+
+-- Insertar datos en la tabla 'historial_vacaciones'
+INSERT INTO historial_vacaciones (id, id_empleado, fecha_inicio, fecha_fin, duracion, estado)
+VALUES 
+(1, NULL, '2024-01-01', '2024-01-07', 6.00, 'Aprobado'),
+(2, NULL, '2024-02-01', '2024-02-07', 6.00, 'Aprobado'),
+(3, NULL, '2024-03-01', '2024-03-07', 6.00, 'Aprobado'),
+(4, NULL, '2024-04-01', '2024-04-07', 6.00, 'Aprobado'),
+(5, NULL, '2024-05-01', '2024-05-07', 6.00, 'Aprobado');
+
+-- Insertar datos en la tabla 'puestos'
+INSERT INTO puestos (id, nombre, descripcion, salario_base, empleados_asociados, habilidades_requeridas, id_evaluacion_desempenio)
+VALUES 
+(1, 'Gerente de Ventas', 'Administra equipo de ventas', 5000.00, 0, 'Liderazgo, Ventas', 1),
+(2, 'Gerente de Marketing', 'Administra equipo de marketing', 4500.00, 0, 'Liderazgo, Marketing', 2),
+(3, 'Gerente de Recursos Humanos', 'Administra equipo de recursos humanos', 4000.00, 0, 'Liderazgo, RRHH', 3),
+(4, 'Gerente de TI', 'Administra equipo de TI', 5500.00, 0, 'Liderazgo, TI', 4),
+(5, 'Gerente Financiero', 'Administra equipo financiero', 6000.00, 0, 'Liderazgo, Finanzas', 5);
+
+-- Insertar datos en la tabla 'empleados'
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones)
+VALUES 
+(1, 'Juan', 'Pérez', '1980-01-01', 'Calle Principal 123', '1234567890', 'juan.perez@example.com', 5000.00, CURRENT_TIMESTAMP, 1, 1, 'Liderazgo, Ventas', 1, 1),
+(2, 'Ana', 'López', '1981-01-01', 'Calle Principal 456', '0987654321', 'ana.lopez@example.com', 4500.00, CURRENT_TIMESTAMP, 2, 2, 'Liderazgo, Marketing', 2, 2),
+(3, 'Pedro', 'Gómez', '1982-01-01', 'Calle Principal 789', '1122334455', 'pedro.gomez@example.com', 4000.00, CURRENT_TIMESTAMP, 3, 3, 'Liderazgo, RRHH', 3, 3),
+(4, 'María', 'Rodríguez', '1983-01-01', 'Calle Principal 321', '5544332211', 'maria.rodriguez@example.com', 5500.00, CURRENT_TIMESTAMP, 4, 4, 'Liderazgo, TI', 4, 4),
+(5, 'Carlos', 'Martínez', '1984-01-01', 'Calle Principal 654', '6677889900', 'carlos.martinez@example.com', 6000.00, CURRENT_TIMESTAMP, 5, 5, 'Liderazgo, Finanzas', 5, 5);
+
+-- Actualizar la tabla 'evaluaciones_desempenio' para establecer el 'id_empleado'
+UPDATE evaluaciones_desempenio SET id_empleado = 1 WHERE id = 1;
+UPDATE evaluaciones_desempenio SET id_empleado = 2 WHERE id = 2;
+UPDATE evaluaciones_desempenio SET id_empleado = 3 WHERE id = 3;
+UPDATE evaluaciones_desempenio SET id_empleado = 4 WHERE id = 4;
+UPDATE evaluaciones_desempenio SET id_empleado = 5 WHERE id = 5;
+
+-- Actualizar la tabla 'historial_vacaciones' para establecer el 'id_empleado'
+UPDATE historial_vacaciones SET id_empleado = 1 WHERE id = 1;
+UPDATE historial_vacaciones SET id_empleado = 2 WHERE id = 2;
+UPDATE historial_vacaciones SET id_empleado = 3 WHERE id = 3;
+UPDATE historial_vacaciones SET id_empleado = 4 WHERE id = 4;
+UPDATE historial_vacaciones SET id_empleado = 5 WHERE id = 5;
+
+-- Actualizar la tabla 'departamentos' para establecer el 'empleados_asociados'
+UPDATE departamentos SET empleados_asociados = 1 WHERE id = 1;
+UPDATE departamentos SET empleados_asociados = 1 WHERE id = 2;
+UPDATE departamentos SET empleados_asociados = 1 WHERE id = 3;
+UPDATE departamentos SET empleados_asociados = 1 WHERE id = 4;
+UPDATE departamentos SET empleados_asociados = 1 WHERE id = 5;
+
+-- Actualizar la tabla 'puestos' para establecer el 'empleados_asociados'
+UPDATE puestos SET empleados_asociados = 1 WHERE id = 1;
+UPDATE puestos SET empleados_asociados = 1 WHERE id = 2;
+UPDATE puestos SET empleados_asociados = 1 WHERE id = 3;
+UPDATE puestos SET empleados_asociados = 1 WHERE id = 4;
+UPDATE puestos SET empleados_asociados = 1 WHERE id = 5;
+
+-- Insertar datos en la tabla 'capacitacion'
+INSERT INTO capacitacion (id, nombre, descripcion, fecha_inicio, fecha_finalizacion, duracion, costo, empleados_asociados, evaluacion_satisfaccion)
+VALUES 
+(1, 'Capacitación 1', 'Descripción 1', '2024-01-01', '2024-01-07', 6.00, 100.00, 1, 'Buena'),
+(2, 'Capacitación 2', 'Descripción 2', '2024-02-01', '2024-02-07', 6.00, 200.00, 2, 'Muy Buena'),
+(3, 'Capacitación 3', 'Descripción 3', '2024-03-01', '2024-03-07', 6.00, 300.00, 3, 'Excelente'),
+(4, 'Capacitación 4', 'Descripción 4', '2024-04-01', '2024-04-07', 6.00, 400.00, 4, 'Regular'),
+(5, 'Capacitación 5', 'Descripción 5', '2024-05-01', '2024-05-07', 6.00, 500.00, 5, 'Mala');
+
+-- Insertar datos en la tabla 'beneficio'
+INSERT INTO beneficio (id, nombre, descripcion, costo, empleados_asociados)
+VALUES 
+(1, 'Beneficio 1', 'Descripción 1', 100.00, 1),
+(2, 'Beneficio 2', 'Descripción 2', 200.00, 2),
+(3, 'Beneficio 3', 'Descripción 3', 300.00, 3),
+(4, 'Beneficio 4', 'Descripción 4', 400.00, 4),
+(5, 'Beneficio 5', 'Descripción 5', 500.00, 5);
+
+-- Insertar datos en la tabla 'incidente_laboral'
+INSERT INTO incidente_laboral (id, empleado_asociado, fecha_incidente, tipo_incidente, gravedad, acciones_correctivas)
+VALUES 
+(1, 1, '2024-01-01', 'Tipo 1', 'Baja', 'Acción 1'),
+(2, 2, '2024-02-01', 'Tipo 2', 'Media', 'Acción 2'),
+(3, 3, '2024-03-01', 'Tipo 3', 'Alta', 'Acción 3'),
+(4, 4, '2024-04-01', 'Tipo 4', 'Baja', 'Acción 4'),
+(5, 5, '2024-05-01', 'Tipo 5', 'Media', 'Acción 5');
+
+-- Insertar datos en la tabla 'reclutamiento'
+INSERT INTO reclutamiento (id, puesto_asociado, fecha_publicacion, fecha_cierre, numero_vacantes, candidatos_asociados, estado)
+VALUES 
+(1, 1, '2024-01-01', '2024-01-07', 1, 'Candidato 1', 'Abierto'),
+(2, 2, '2024-02-01', '2024-02-07', 1, 'Candidato 2', 'Cerrado'),
+(3, 3, '2024-03-01', '2024-03-07', 1, 'Candidato 3', 'Abierto'),
+(4, 4, '2024-04-01', '2024-04-07', 1, 'Candidato 4', 'Cerrado'),
+(5, 5, '2024-05-01', '2024-05-07', 1, 'Candidato 5', 'Abierto');
+
+-- Insertar datos en la tabla 'viaje_laboral'
+INSERT INTO viaje_laboral (id, empleado_asociado, destino, fecha_salida, fecha_regreso, duracion, motivo, costo)
+VALUES 
+(1, 1, 'Destino 1', '2024-01-01', '2024-01-07', 6.00, 'Motivo 1', 100.00),
+(2, 2, 'Destino 2', '2024-02-01', '2024-02-07', 6.00, 'Motivo 2', 200.00),
+(3, 3, 'Destino 3', '2024-03-01', '2024-03-07', 6.00, 'Motivo 3', 300.00),
+(4, 4, 'Destino 4', '2024-04-01', '2024-04-07', 6.00, 'Motivo 4', 400.00),
+(5, 5, 'Destino 5', '2024-05-01', '2024-05-07', 6.00, 'Motivo 5', 500.00);
+
+
+-- Vista 1: Promedio de evaluaciones de desempeño por departamento, filtrando aquellos departamentos cuyo promedio de evaluación sea mayor o igual a 4:
+CREATE VIEW Promedio_Evaluaciones_Departamentos AS
+SELECT d.nombre AS nombre_departamento, AVG(p.calificacion) AS calificacion_promedio
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+JOIN evaluaciones_desempenio p ON e.id_evaluacion_desempenio = p.id
+GROUP BY d.nombre
+HAVING AVG(p.calificacion) >= 4;
+
+-- Vista 2: Empleados que han estado en la empresa por más de 5 años:
+CREATE VIEW Empleados_Antiguos AS
+SELECT e.nombre, e.apellido
+FROM empleados e
+WHERE TIMESTAMPDIFF(YEAR, e.fecha_contratacion, CURRENT_DATE) > 5;
+
+-- Vista 3: Total de días de vacaciones por empleado, agrupando por nombre y apellido, y filtrando aquellos cuyo total de días de vacaciones sea mayor a 20:
+CREATE VIEW Total_Vacaciones_Empleados AS
+SELECT e.nombre, e.apellido, SUM(v.duracion) AS total_dias_vacaciones
+FROM empleados e
+JOIN historial_vacaciones v ON e.id_historial_vacaciones = v.id
+GROUP BY e.nombre, e.apellido
+HAVING SUM(v.duracion) > 20;
+
+-- Vista 4: Empleados y sus departamentos
+CREATE VIEW Empleados_Departamentos AS
+SELECT e.nombre, e.apellido, d.nombre AS nombre_departamento
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id;
+
+-- Vista 5: Evaluaciones de rendimiento de los empleados
+CREATE VIEW Evaluaciones_Empleados AS
+SELECT e.nombre, e.apellido, p.fecha_evaluacion, p.calificacion, p.comentarios
+FROM empleados e
+JOIN evaluaciones_desempenio p ON e.id_evaluacion_desempenio = p.id;
+
+-- Vista 6: Historial de vacaciones de los empleados
+CREATE VIEW Vacaciones_Empleados AS
+SELECT e.nombre, e.apellido, v.fecha_inicio, v.fecha_fin, v.duracion, v.estado
+FROM empleados e
+JOIN historial_vacaciones v ON e.id_historial_vacaciones = v.id;
+
+-- Vista 7: Capacitaciones y empleados asociados
+CREATE VIEW Capacitaciones_Empleados AS
+SELECT c.nombre AS nombre_capacitacion, e.nombre, e.apellido
+FROM capacitacion c
+JOIN empleados e ON c.empleados_asociados = e.id;
+
+-- Vista 8: Beneficios y empleados asociados
+CREATE VIEW Beneficios_Empleados AS
+SELECT b.nombre AS nombre_beneficio, e.nombre, e.apellido
+FROM beneficio b
+JOIN empleados e ON b.empleados_asociados = e.id;
+
+
+-- Una función para obtener el número total de empleados en un departamento específico:
+
+DELIMITER //
+CREATE FUNCTION TotalEmpleadosEnDepartamento(id_dept INT) 
+RETURNS INT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE total INT;
+  SELECT COUNT(*) INTO total
+  FROM empleados
+  WHERE id_departamento = id_dept;
+  RETURN total;
+END //
+DELIMITER ;
+
+-- Almacenar la salida de la función en una variable
+-- SET @totalEmpleados = TotalEmpleadosEnDepartamento(1);
+
+-- Almacenar la salida de la función en una tabla
+-- INSERT INTO mi_tabla (nombre_columna)
+-- VALUES (TotalEmpleadosEnDepartamento(1));
+
+
+-- Una función para calcular la calificación promedio de las evaluaciones de rendimiento de un empleado:
+DELIMITER //
+CREATE FUNCTION PromedioCalificacionRendimiento(id_emp INT) 
+RETURNS DECIMAL(3,2) DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE promedio_calificacion DECIMAL(3,2);
+  SELECT AVG(rating) INTO promedio_calificacion
+  FROM evaluaciones_desempenio
+  WHERE id_empleado = id_emp;
+  RETURN promedio_calificacion;
+END //
+DELIMITER ;
+
+-- Almacenar la salida de la función en una variable
+-- SET @promCalificacionRendimiento = PromedioCalificacionRendimiento(1);
+
+-- Almacenar la salida de la función en una tabla
+-- INSERT INTO mi_tabla (nombre_columna)
+-- VALUES (PromedioCalificacionRendimiento(1));
+
+-- SELECT TotalEmpleadosEnDepartamento(1);
+-- SELECT PromedioCalificacionRendimiento(1);
+
+
+DELIMITER //
+CREATE FUNCTION Promedio_Salario_Departamento(nombre_dept VARCHAR(255))
+RETURNS FLOAT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE promedio_salario FLOAT;
+  SELECT AVG(e.salario) INTO promedio_salario
+  FROM empleados e
+  JOIN departamentos d ON e.id_departamento = d.id
+  WHERE d.nombre = nombre_dept;
+  RETURN promedio_salario;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE FUNCTION Total_Dias_Vacaciones(id_emp INT)
+RETURNS INT DETERMINISTIC READS SQL DATA
+BEGIN
+  DECLARE total_dias INT;
+  SELECT SUM(v.duracion) INTO total_dias
+  FROM historial_vacaciones v
+  WHERE v.id_empleado = id_emp;
+  RETURN total_dias;
+END; //
+DELIMITER ;
+
+
+-- Stored Procedure para Ordenar una Tabla: Este procedimiento almacenado te permite ordenar una tabla por un campo especificado ya sea en orden ascendente o descendente.
+
+DELIMITER //
+CREATE PROCEDURE OrdenarTabla(IN nombre_tabla CHAR(64), IN nombre_campo CHAR(64), IN tipo_orden CHAR(4))
+BEGIN
+  SET @s = CONCAT('SELECT * FROM ', nombre_tabla, ' ORDER BY ', nombre_campo, ' ', tipo_orden);
+  PREPARE stmt FROM @s;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;
+END //
+DELIMITER ;
+
+-- CALL OrdenarTabla('empleados', 'nombre', 'DESC');
+
+-- Stored Procedure para Actualizar el Salario de un Empleado:
+DELIMITER //
+CREATE PROCEDURE ActualizarSalarioEmpleado(IN id_emp INT, IN nuevo_salario DECIMAL(10,2))
+BEGIN
+  UPDATE empleados SET salario = nuevo_salario WHERE id = id_emp;
+END //
+DELIMITER ;
+
+-- CALL ActualizarSalarioEmpleado(1, 6000.00);
+
+-- Stored Procedure para Obtener Detalles de Empleados: Este procedimiento almacenado recupera todos los detalles de un empleado dado su ID.
+
+DELIMITER //
+CREATE PROCEDURE ObtenerDetallesEmpleado(IN id_emp INT)
+BEGIN
+  SELECT * FROM empleados WHERE id = id_emp;
+END //
+DELIMITER ;
+
+-- CALL ObtenerDetallesEmpleado(1);
+
+-- Stored Procedure para Actualizar el Departamento de un Empleado: Este procedimiento almacenado actualiza el departamento de un empleado.
+
+DELIMITER //
+CREATE PROCEDURE ActualizarDepartamentoEmpleado(IN id_emp INT, IN nuevo_id_dept INT)
+BEGIN
+  UPDATE empleados SET id_departamento = nuevo_id_dept WHERE id = id_emp;
+END //
+DELIMITER ;
+
+CALL ActualizarDepartamentoEmpleado(1, 2);
+
+-- Procedimiento Almacenado para Insertar o Eliminar un Registro: Este procedimiento almacenado te permite insertar un nuevo registro en la tabla de empleados o eliminar un registro específico de ella.
+
+DELIMITER //
+CREATE PROCEDURE InsertarEliminarEmpleado(IN accion CHAR(6), IN id_emp INT, IN primer_nombre CHAR(50), IN apellido CHAR(50))
+BEGIN
+  IF accion = 'insert' THEN
+    INSERT INTO empleados(primer_nombre, apellido) VALUES (primer_nombre, apellido);
+  ELSEIF accion = 'delete' THEN
+    DELETE FROM empleados WHERE id = id_emp;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERROR: Acción inválida. Utilice "insert" o "delete".';
+  END IF;
+END //
+DELIMITER ;
+
+-- CALL InsertarEliminarEmpleado('insert', NULL, 'John', 'Doe');
+-- CALL InsertarEliminarEmpleado('delete', 1, NULL, NULL);
+
+
+-- Crear tablas LOG para empleados y evaluación de rendimiento:
+
+CREATE TABLE employees_log (
+    id INT AUTO_INCREMENT,
+    operacion VARCHAR(50),
+    hora_operacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_empleado INT,
+    usuario VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE performance_evaluations_log (
+    id INT AUTO_INCREMENT,
+    operacion VARCHAR(50),
+    hora_operacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_evaluacion INT,
+    usuario VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+
+-- Crear los desencadenadores: Desencadenador BEFORE UPDATE en la tabla employees:
+-- Este desencadenador registrará cada operación de actualización en la tabla employees antes de que ocurra.
+
+DELIMITER //
+CREATE TRIGGER antes_actualizacion_empleado
+BEFORE UPDATE ON empleados
+FOR EACH ROW
+BEGIN
+    INSERT INTO employees_log(operacion, id_empleado, usuario) 
+    VALUES ('ACTUALIZAR', OLD.id, CURRENT_USER());
+END; //
+DELIMITER ;
+
+-- Desencadenador AFTER INSERT en la tabla performance_evaluations:
+-- Este desencadenador registrará cada operación de inserción en la tabla performance_evaluations después de que ocurra.
+
+DELIMITER //
+CREATE TRIGGER despues_insercion_evaluacion
+AFTER INSERT ON evaluaciones_desempenio
+FOR EACH ROW
+BEGIN
+    INSERT INTO performance_evaluations_log(operacion, id_evaluacion, usuario)
+    VALUES ('INSERTAR', NEW.id, CURRENT_USER());
+END; //
+DELIMITER ;
+
+
+-- Crear un usuario llamado 'usuario_solo_lectura' con la contraseña 'sololectura'
+CREATE USER 'usuario_solo_lectura'@'localhost' IDENTIFIED BY 'sololectura';
+
+-- Otorgar permisos SELECT (lectura) en todas las tablas de tu base de datos a 'usuario_solo_lectura'
+GRANT SELECT ON company_db_test.* TO 'usuario_solo_lectura'@'localhost';
+
+-- Crear un usuario llamado 'usuario_lectura_escritura' con la contraseña 'lecturaescritura'
+CREATE USER 'usuario_lectura_escritura'@'localhost' IDENTIFIED BY 'lecturaescritura';
+
+-- Otorgar permisos SELECT (lectura), INSERT y UPDATE en todas las tablas de tu base de datos a 'usuario_lectura_escritura'
+GRANT SELECT, INSERT, UPDATE ON company_db_test.* TO 'usuario_lectura_escritura'@'localhost';
+
+-- No se otorgaron permisos DELETE a ninguno de los usuarios
+-- Reemplaza 'localhost' con el nombre de host correcto si tu servidor MySQL no está en la misma máquina
+-- Ejecutar FLUSH PRIVILEGES; después de establecer los permisos para asegurar que sean efectivos inmediatamente.
+FLUSH PRIVILEGES;
+
+-- Para verificar, puedes usar los siguientes comandos:
+-- SELECT User, Host FROM mysql.user;
+-- SHOW GRANTS FOR 'usuario_solo_lectura'@'localhost';
+-- SHOW GRANTS FOR 'usuario_lectura_escritura'@'localhost';
+
+
+-- Eliminar el usuario 'readonlyuser'
+-- DROP USER 'usuario_solo_lectura'@'localhost';
+
+-- Eliminar el usuario 'readwriteuser'
+-- DROP USER 'usuario_lectura_escritura'@'localhost';
+
+
+-- Iniciar transacción
+START TRANSACTION;
+
+-- Actualizar el department_id de los empleados que pertenecen a los departamentos que se van a eliminar
+UPDATE empleados SET id_departamento = NULL WHERE id_departamento IN (4, 5);
+
+-- Ahora eliminar los registros de los departamentos
+DELETE FROM departamentos WHERE id IN (4, 5);
+
+-- Rollback (descomenta la siguiente línea para revertir los cambios)
+ROLLBACK;
+
+-- Commit (descomenta la siguiente línea para hacer permanentes los cambios)
+-- COMMIT;
+
+-- Iniciar transacción
+START TRANSACTION;
+
+-- Insertar registros
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (6, 'Alice', 'Smith', '1990-01-01', '789 Side St', '1112223333', 'alice.smith@example.com', 4500.00, CURRENT_TIMESTAMP, 1, 2, 'Comunicación, Marketing', NULL, NULL);
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (7, 'Bob', 'Johnson', '1991-02-01', '987 Down St', '4445556666', 'bob.johnson@example.com', 4700.00, CURRENT_TIMESTAMP, 2, 3, 'Liderazgo, HR', NULL, NULL);
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (8, 'Carol', 'Williams', '1992-03-02', '123 Up St', '7778889999', 'carol.williams@example.com', 5000.00, CURRENT_TIMESTAMP, 3, 4, 'Gestión de proyectos, IT', NULL, NULL);
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (9, 'David', 'Brown', '1993-04-03', '321 Round St', '0001112222', 'david.brown@example.com', 5200.00, CURRENT_TIMESTAMP, 4, 5, 'Analítico, Finanzas', NULL, NULL);
+
+-- Primer Savepoint después del registro #4
+SAVEPOINT AfterFourInserts;
+
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (10, 'Eve', 'Jones', '1994-05-04', '654 Square St', '3334445555', 'eve.jones@example.com', 4800.00, CURRENT_TIMESTAMP, 5, 1, 'Negociación, Ventas', NULL, NULL);
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (11, 'Frank', 'García', '1995-06-05', '456 Triangle St', '6667778888', 'frank.garcia@example.com', 4900.00, CURRENT_TIMESTAMP, 1, 2, 'Creatividad, Marketing', NULL, NULL);
+-- Continuación de los inserts...
+
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (12, 'Grace', 'Lee', '1996-07-06', '789 Circle St', '9998887776', 'grace.lee@example.com', 5100.00, CURRENT_TIMESTAMP, 2, 3, 'Planificación estratégica, HR', NULL, NULL);
+INSERT INTO empleados (id, nombre, apellido, fecha_nacimiento, direccion, numero_telefono, correo_electronico, salario, fecha_contratacion, id_departamento, id_puesto, habilidades, id_evaluacion_desempenio, id_historial_vacaciones) VALUES (13, 'Henry', 'Wilson', '1997-08-07', '123 Nonagon St', '6663339999', 'henry.wilson@example.com', 5300.00, CURRENT_TIMESTAMP, 3, 4, 'Innovación, IT', NULL, NULL);
+
+-- Segundo Savepoint después del registro #8
+SAVEPOINT AfterEightInserts;
+
+-- Para revertir los cambios hasta el primer savepoint (descomentar si es necesario):
+-- ROLLBACK TO AfterFourInserts;
+
+-- Para eliminar el savepoint de los primeros 4 registros (descomentar si es necesario):
+-- RELEASE SAVEPOINT AfterFourInserts;
+
+-- Commit para hacer permanentes los cambios (descomentar si estás seguro de los cambios):
+-- COMMIT;
+
+-- Rollback para revertir todos los cambios si algo sale mal (descomentar si es necesario):
+-- ROLLBACK;
