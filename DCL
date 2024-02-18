@@ -1,14 +1,14 @@
--- Crear un usuario llamado 'readonlyuser' con contraseña 'readonlypassword'
-CREATE USER 'readonlyuser'@'localhost' IDENTIFIED BY 'readonlypassword';
+-- Crear un usuario llamado 'usuario_solo_lectura' con la contraseña 'sololectura'
+CREATE USER 'usuario_solo_lectura'@'localhost' IDENTIFIED BY 'sololectura';
 
--- Otorgar permisos SELECT (lectura) en todas las tablas de tu base de datos a 'readonlyuser'
-GRANT SELECT ON company_db_test.* TO 'readonlyuser'@'localhost';
+-- Otorgar permisos SELECT (lectura) en todas las tablas de tu base de datos a 'usuario_solo_lectura'
+GRANT SELECT ON company_db_test.* TO 'usuario_solo_lectura'@'localhost';
 
--- Crear un usuario llamado 'readwriteuser' con contraseña 'readwritepassword'
-CREATE USER 'readwriteuser'@'localhost' IDENTIFIED BY 'readwritepassword';
+-- Crear un usuario llamado 'usuario_lectura_escritura' con la contraseña 'lecturaescritura'
+CREATE USER 'usuario_lectura_escritura'@'localhost' IDENTIFIED BY 'lecturaescritura';
 
--- Otorgar permisos SELECT (lectura), INSERT y UPDATE en todas las tablas de tu base de datos a 'readwriteuser'
-GRANT SELECT, INSERT, UPDATE ON company_db_test.* TO 'readwriteuser'@'localhost';
+-- Otorgar permisos SELECT (lectura), INSERT y UPDATE en todas las tablas de tu base de datos a 'usuario_lectura_escritura'
+GRANT SELECT, INSERT, UPDATE ON company_db_test.* TO 'usuario_lectura_escritura'@'localhost';
 
 -- No se otorgaron permisos DELETE a ninguno de los usuarios
 -- Reemplaza 'localhost' con el nombre de host correcto si tu servidor MySQL no está en la misma máquina
@@ -17,5 +17,12 @@ FLUSH PRIVILEGES;
 
 -- Para verificar, puedes usar los siguientes comandos:
 -- SELECT User, Host FROM mysql.user;
--- SHOW GRANTS FOR 'readonlyuser'@'localhost';
--- SHOW GRANTS FOR 'readwriteuser'@'localhost';
+-- SHOW GRANTS FOR 'usuario_solo_lectura'@'localhost';
+-- SHOW GRANTS FOR 'usuario_lectura_escritura'@'localhost';
+
+
+-- Eliminar el usuario 'readonlyuser'
+-- DROP USER 'usuario_solo_lectura'@'localhost';
+
+-- Eliminar el usuario 'readwriteuser'
+-- DROP USER 'usuario_lectura_escritura'@'localhost';
