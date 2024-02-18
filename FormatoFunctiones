@@ -1,71 +1,71 @@
--- A function to get the total number of employees in a specific department:
+-- Una función para obtener el número total de empleados en un departamento específico:
 
 DELIMITER //
-CREATE FUNCTION TotalEmployeesInDepartment(dept_id INT) 
+CREATE FUNCTION TotalEmpleadosEnDepartamento(id_dept INT) 
 RETURNS INT DETERMINISTIC READS SQL DATA
 BEGIN
   DECLARE total INT;
   SELECT COUNT(*) INTO total
-  FROM employees
-  WHERE department_id = dept_id;
+  FROM empleados
+  WHERE id_departamento = id_dept;
   RETURN total;
 END //
 DELIMITER ;
 
--- Store function output in a variable
--- SET @totalEmployees = TotalEmployeesInDepartment(1);
+-- Almacenar la salida de la función en una variable
+-- SET @totalEmpleados = TotalEmpleadosEnDepartamento(1);
 
--- Store function output in a table
--- INSERT INTO my_table (column_name)
--- VALUES (TotalEmployeesInDepartment(1));
+-- Almacenar la salida de la función en una tabla
+-- INSERT INTO mi_tabla (nombre_columna)
+-- VALUES (TotalEmpleadosEnDepartamento(1));
 
 
--- A function to calculate the average rating of an employee’s performance evaluations:
+-- Una función para calcular la calificación promedio de las evaluaciones de rendimiento de un empleado:
 DELIMITER //
-CREATE FUNCTION AveragePerformanceRating(emp_id INT) 
+CREATE FUNCTION PromedioCalificacionRendimiento(id_emp INT) 
 RETURNS DECIMAL(3,2) DETERMINISTIC READS SQL DATA
 BEGIN
-  DECLARE avg_rating DECIMAL(3,2);
-  SELECT AVG(rating) INTO avg_rating
-  FROM performance_evaluations
-  WHERE employee_id = emp_id;
-  RETURN avg_rating;
+  DECLARE promedio_calificacion DECIMAL(3,2);
+  SELECT AVG(rating) INTO promedio_calificacion
+  FROM evaluaciones_desempenio
+  WHERE id_empleado = id_emp;
+  RETURN promedio_calificacion;
 END //
 DELIMITER ;
 
--- Store function output in a variable
--- SET @avgPerfRate = AveragePerformanceRating(1);
+-- Almacenar la salida de la función en una variable
+-- SET @promCalificacionRendimiento = PromedioCalificacionRendimiento(1);
 
--- Store function output in a table
--- INSERT INTO my_table (column_name)
--- VALUES (AveragePerformanceRating(1));
+-- Almacenar la salida de la función en una tabla
+-- INSERT INTO mi_tabla (nombre_columna)
+-- VALUES (PromedioCalificacionRendimiento(1));
 
--- SELECT TotalEmployeesInDepartment(1);
--- SELECT AveragePerformanceRating(1);
+-- SELECT TotalEmpleadosEnDepartamento(1);
+-- SELECT PromedioCalificacionRendimiento(1);
 
 
 DELIMITER //
-CREATE FUNCTION Avg_Salary_Department(dept_name VARCHAR(255))
+CREATE FUNCTION Promedio_Salario_Departamento(nombre_dept VARCHAR(255))
 RETURNS FLOAT DETERMINISTIC READS SQL DATA
 BEGIN
-  DECLARE avg_salary FLOAT;
-  SELECT AVG(e.salary) INTO avg_salary
-  FROM employees e
-  JOIN departments d ON e.department_id = d.id
-  WHERE d.name = dept_name;
-  RETURN avg_salary;
+  DECLARE promedio_salario FLOAT;
+  SELECT AVG(e.salario) INTO promedio_salario
+  FROM empleados e
+  JOIN departamentos d ON e.id_departamento = d.id
+  WHERE d.nombre = nombre_dept;
+  RETURN promedio_salario;
 END //
 DELIMITER ;
 
 
 DELIMITER //
-CREATE FUNCTION Total_Vacation_Days(emp_id INT)
+CREATE FUNCTION Total_Dias_Vacaciones(id_emp INT)
 RETURNS INT DETERMINISTIC READS SQL DATA
 BEGIN
-  DECLARE total_days INT;
-  SELECT SUM(v.duration) INTO total_days
-  FROM vacation_history v
-  WHERE v.employee_id = emp_id;
-  RETURN total_days;
+  DECLARE total_dias INT;
+  SELECT SUM(v.duracion) INTO total_dias
+  FROM historial_vacaciones v
+  WHERE v.id_empleado = id_emp;
+  RETURN total_dias;
 END; //
 DELIMITER ;
