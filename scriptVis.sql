@@ -1,53 +1,52 @@
--- Vista 1: Average performance evaluations by department, filtering those departments whose average evaluation is greater than or equal to 4:
+-- Vista 1: Promedio de evaluaciones de desempeño por departamento, filtrando aquellos departamentos cuyo promedio de evaluación sea mayor o igual a 4:
 CREATE VIEW Promedio_Evaluaciones_Departamentos AS
-SELECT d.name AS department_name, AVG(p.rating) AS avg_rating
-FROM employees e
-JOIN departments d ON e.department_id = d.id
-JOIN performance_evaluations p ON e.performance_evaluation_id = p.id
-GROUP BY d.name
-HAVING AVG(p.rating) >= 4;
+SELECT d.nombre AS nombre_departamento, AVG(p.calificacion) AS calificacion_promedio
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id
+JOIN evaluaciones_desempenio p ON e.id_evaluacion_desempenio = p.id
+GROUP BY d.nombre
+HAVING AVG(p.calificacion) >= 4;
 
--- Vista 2: Employees who have been in the company for more than 5 years:
+-- Vista 2: Empleados que han estado en la empresa por más de 5 años:
 CREATE VIEW Empleados_Antiguos AS
-SELECT e.first_name, e.last_name
-FROM employees e
-WHERE TIMESTAMPDIFF(YEAR, e.hire_date, CURRENT_DATE) > 5;
+SELECT e.nombre, e.apellido
+FROM empleados e
+WHERE TIMESTAMPDIFF(YEAR, e.fecha_contratacion, CURRENT_DATE) > 5;
 
-
--- Vista 3: Total vacation days by employee, grouping by first and last name, and filtering those whose total vacation days are greater than 20:
+-- Vista 3: Total de días de vacaciones por empleado, agrupando por nombre y apellido, y filtrando aquellos cuyo total de días de vacaciones sea mayor a 20:
 CREATE VIEW Total_Vacaciones_Empleados AS
-SELECT e.first_name, e.last_name, SUM(v.duration) AS total_vacation_days
-FROM employees e
-JOIN vacation_history v ON e.vacation_history_id = v.id
-GROUP BY e.first_name, e.last_name
-HAVING SUM(v.duration) > 20;
+SELECT e.nombre, e.apellido, SUM(v.duracion) AS total_dias_vacaciones
+FROM empleados e
+JOIN historial_vacaciones v ON e.id_historial_vacaciones = v.id
+GROUP BY e.nombre, e.apellido
+HAVING SUM(v.duracion) > 20;
 
 -- Vista 4: Empleados y sus departamentos
 CREATE VIEW Empleados_Departamentos AS
-SELECT e.first_name, e.last_name, d.name AS department_name
-FROM employees e
-JOIN departments d ON e.department_id = d.id;
+SELECT e.nombre, e.apellido, d.nombre AS nombre_departamento
+FROM empleados e
+JOIN departamentos d ON e.id_departamento = d.id;
 
 -- Vista 5: Evaluaciones de rendimiento de los empleados
 CREATE VIEW Evaluaciones_Empleados AS
-SELECT e.first_name, e.last_name, p.evaluation_date, p.rating, p.comments
-FROM employees e
-JOIN performance_evaluations p ON e.performance_evaluation_id = p.id;
+SELECT e.nombre, e.apellido, p.fecha_evaluacion, p.calificacion, p.comentarios
+FROM empleados e
+JOIN evaluaciones_desempenio p ON e.id_evaluacion_desempenio = p.id;
 
 -- Vista 6: Historial de vacaciones de los empleados
 CREATE VIEW Vacaciones_Empleados AS
-SELECT e.first_name, e.last_name, v.start_date, v.end_date, v.duration, v.status
-FROM employees e
-JOIN vacation_history v ON e.vacation_history_id = v.id;
+SELECT e.nombre, e.apellido, v.fecha_inicio, v.fecha_fin, v.duracion, v.estado
+FROM empleados e
+JOIN historial_vacaciones v ON e.id_historial_vacaciones = v.id;
 
 -- Vista 7: Capacitaciones y empleados asociados
 CREATE VIEW Capacitaciones_Empleados AS
-SELECT c.nombre AS capacitacion_nombre, e.first_name, e.last_name
+SELECT c.nombre AS nombre_capacitacion, e.nombre, e.apellido
 FROM capacitacion c
-JOIN employees e ON c.empleados_asociados = e.id;
+JOIN empleados e ON c.empleados_asociados = e.id;
 
 -- Vista 8: Beneficios y empleados asociados
 CREATE VIEW Beneficios_Empleados AS
-SELECT b.nombre AS beneficio_nombre, e.first_name, e.last_name
+SELECT b.nombre AS nombre_beneficio, e.nombre, e.apellido
 FROM beneficio b
-JOIN employees e ON b.empleados_asociados = e.id;
+JOIN empleados e ON b.empleados_asociados = e.id;
