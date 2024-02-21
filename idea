@@ -1,7 +1,7 @@
-CREATE DATABASE company_db_2;
+CREATE DATABASE company_db_1;
 -- Crear base de datos de la compañía
 
-USE company_db_2;
+USE company_db_1;
 -- Usar la base de datos de la compañía
 
 CREATE TABLE departamentos (
