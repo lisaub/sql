@@ -1,6 +1,7 @@
 # Proyecto de Base de Datos de RRHH
 
-![Icono de Base de Datos]([https://pixabay.com/photos/bunny-business-businessmen-career-3830669/](https://images.unsplash.com/photo-1520694478166-daaaaec95b69?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D))
+![Icono de Base de Datos](https://images.unsplash.com/photo-1520694478166-daaaaec95b69?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8f
+
 
 ## Introducción
 
