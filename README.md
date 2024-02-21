@@ -1,6 +1,6 @@
 # Proyecto de Base de Datos de RRHH
 
-![Icono de Base de Datos]([https://example.com/icono-db.png](https://www.flaticon.com/free-icon/human-resources_6846565?term=hr&page=1&position=1&origin=tag&related_id=6846565))
+![Icono de Base de Datos](https://pixabay.com/photos/bunny-business-businessmen-career-3830669/)
 
 ## Introducción
 
